@@ -3,6 +3,7 @@
 require "rubygems"
 require "serialport"
 require 'net/http'
+require 'base64'
 require "awesome_print"
 
 ###-----------------USER CONFIGURATION-----------------###
