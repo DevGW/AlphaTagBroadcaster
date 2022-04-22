@@ -30,7 +30,7 @@ icecastMountpoint = "***REMOVED***" #enter icecast mountpoint in quotes here - d
 def pollData
   @write_ser.write("#{@testString}\r")
   data = @read_ser.readlines()
-  ap "#{data}"
+  # ap "#{data}"
   parseData(data)
 end
 
@@ -68,11 +68,10 @@ end
 def postAlphaTag(alphaTag)
   formattedAlphaTag = alphaTag.gsub(" ", "+")
   @tgidOld = @tgid
-  ap "updating alpha tag"
-  ap alphaTag
-
   url = "#{@urlBase}#{formattedAlphaTag}"
   sleep @delay
+  ap "updating alpha tag"
+  ap alphaTag
   response = RestClient.get(url,
      {
          Authorization: "Basic #{Base64::encode64("#{@icecastUser}:#{@icecastPass}")}"
