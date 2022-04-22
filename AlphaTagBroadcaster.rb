@@ -43,10 +43,10 @@ def parseData(data)
       if parsedData.count >= 10
         # ap "parsedData count passed"
         if !parsedData[1].to_s.strip.empty?
-          # ap "parsedData[1] not blank"
+          ap "parsedData[1] not blank"
           @tgid = parsedData[1]
           if @tgid != @tgidOld
-            # ap "@tgid != @tgidOld"
+            ap "@tgid != @tgidOld"
             sys = parsedData[5]
             group = parsedData[6]
             talkGroup = parsedData[7]
