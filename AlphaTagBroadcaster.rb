@@ -76,7 +76,7 @@ def postAlphaTag(alphaTag)
   http.use_ssl = false
   request = Net::HTTP::Get.new(uri.path)#, 'Content Type' => 'application/json')
   request.basic_auth(@icecastUser, @icecastPass)
-  ap request.as_json
+  ap as_json(request)
   resp = http.request(request)
   ap resp.body
 
