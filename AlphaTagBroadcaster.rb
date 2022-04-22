@@ -74,7 +74,8 @@ def postAlphaTag(alphaTag)
   http = Net::HTTP.new(uri.host, uri.port)
   http.use_ssl = false
   request = Net::HTTP::Get.new(uri.path, 'Content Type' => 'application/json')
-  request.basic_auth(@icecastUser, @icecastPass)
+  request["Authorization"] =  "Basic " + Base64::encode64("#{@icecastUser}:#{@icecastPass}")
+  #  request.basic_auth(@icecastUser, @icecastPass)
   resp = http.request(request)
   ap resp.body
 
