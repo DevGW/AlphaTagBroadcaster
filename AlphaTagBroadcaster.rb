@@ -31,62 +31,62 @@ def pollData
   @write_ser.write("#{@testString}\r")
   data = @read_ser.readlines()
   ap "#{data}"
-  #  parseData(data)
+  parseData(data)
 end
 
-# def parseData(data)
-#   if data.is_a?(Array) && data.count > 0
-#     parsedData = data[0].chomp!.split(",", -1)
-#     # ap "parsing"
-#     # ap parsedData
-#     testChars = parsedData[0]
-#     if testChars == @testString
-#       # ap "test passed"
-#       if parsedData.count >= 10
-#         # ap "parsedData count passed"
-#         if !parsedData[1].to_s.strip.empty?
-#           # ap "parsedData[1] not blank"
-#           @tgid = parsedData[1]
-#           if @tgid != @tgidOld
-#             # ap "@tgid != @tgidOld"
-#             sys = parsedData[5]
-#             group = parsedData[6]
-#             talkGroup = parsedData[7]
-#             @metadata = "#{@tgid} #{sys} #{group} #{talkGroup}"
-#             Thread.new(postAlphaTag(@metadata))
-#           end
-#         elsif @metadata != 'Searching for activity...'
-#           # ap "metadata does not match"
-#           @metadata = 'Searching for activity...'
-#           Thread.new(postAlphaTag(@metadata))
-#         end
-#       end
-#     end
-#   end
-# end
-#
-# def postAlphaTag(alphaTag)
-#   formattedAlphaTag = alphaTag.gsub(" ", "+")
-#   @tgidOld = @tgid
-#   ap "updating alpha tag"
-#   ap alphaTag
-#
-#   url = "#{@urlBase}#{formattedAlphaTag}"
-#   sleep @delay
-#   response = RestClient.get(url,
-#      {
-#          Authorization: "Basic #{Base64::encode64("#{@icecastUser}:#{@icecastPass}")}"
-#      }
-#   )
-#   if response.code == 200
-#     ap "Updated successfully at: #{DateTime.now.strftime("%A, %d %b %Y %l:%M %p")}"
-#   end
-#   # ap response.headers
-#   # ap response.body
-# end
-#
-# postAlphaTag(@metadata)
-#
+def parseData(data)
+  if data.is_a?(Array) && data.count > 0
+    parsedData = data[0].chomp!.split(",", -1)
+    # ap "parsing"
+    # ap parsedData
+    testChars = parsedData[0]
+    if testChars == @testString
+      # ap "test passed"
+      if parsedData.count >= 10
+        # ap "parsedData count passed"
+        if !parsedData[1].to_s.strip.empty?
+          # ap "parsedData[1] not blank"
+          @tgid = parsedData[1]
+          if @tgid != @tgidOld
+            # ap "@tgid != @tgidOld"
+            sys = parsedData[5]
+            group = parsedData[6]
+            talkGroup = parsedData[7]
+            @metadata = "#{@tgid} #{sys} #{group} #{talkGroup}"
+            Thread.new { postAlphaTag(@metadata) }
+          end
+        elsif @metadata != 'Searching for activity...'
+          # ap "metadata does not match"
+          @metadata = 'Searching for activity...'
+          Thread.new { postAlphaTag(@metadata) }
+        end
+      end
+    end
+  end
+end
+
+def postAlphaTag(alphaTag)
+  formattedAlphaTag = alphaTag.gsub(" ", "+")
+  @tgidOld = @tgid
+  ap "updating alpha tag"
+  ap alphaTag
+
+  url = "#{@urlBase}#{formattedAlphaTag}"
+  sleep @delay
+  response = RestClient.get(url,
+     {
+         Authorization: "Basic #{Base64::encode64("#{@icecastUser}:#{@icecastPass}")}"
+     }
+  )
+  if response.code == 200
+    ap "Updated successfully at: #{DateTime.now.strftime("%A, %d %b %Y %l:%M %p")}"
+  end
+  # ap response.headers
+  # ap response.body
+end
+
+postAlphaTag(@metadata)
+
 while true
   pollData()
   sleep(0.1)
