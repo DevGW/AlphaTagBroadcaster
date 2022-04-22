@@ -19,7 +19,7 @@ delay = 0 #enter the time in seconds of desired update delay time to match audio
 @testString = "GLG" #'''test string to send to Uniden Scanner to get current status
 #for BCT8 will be RF to get frequency, or LCD FRQ to read icon status
 #for BC125AT use CIN'''
-@TGIDold, @TGID = 0 #initialize TGID old test variable
+@tgidOld, @tgid = 0 #initialize TGID old test variable
 @metadata = 'Searching for activity...'
 
 @write_ser = SerialPort.new(port, baudrate)
@@ -27,9 +27,34 @@ delay = 0 #enter the time in seconds of desired update delay time to match audio
 
 def pollData
   @write_ser.write("#{@testString}\r")
-  response = @read_ser.readline("\r")
+  response = @read_ser.readline()
   ap "#{response}\n"
   sleep(0.1)
+end
+
+def parseData(data)
+  testChars = data[0]
+  if testChars == @testString
+    if data.count >= 10
+      if !data[1].blank?
+        @tgid = data[1]
+        sys = data[5]
+        group = data[6]
+        talkGroup = data[7]
+        if @tgid != @tgidOld
+          @metadata = "#{@tgid} #{sys} #{group} #{talkGroup}"
+          postAlphaTag(@metadata)
+        end
+      elsif @metadata != 'Searching for activity...'
+        @metadata = 'Searching for activity...'
+        postAlphaTag(@metadata)
+      end
+    end
+  end
+end
+
+def postAlphaTag(alphaTag)
+  ap alphaTag
 end
 
 while true
