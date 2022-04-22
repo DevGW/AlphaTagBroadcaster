@@ -31,7 +31,7 @@ def pollData
   @write_ser.write("#{@testString}\r")
   data = @read_ser.readlines()
   ap "#{data}"
-  parseData(data)
+  #  parseData(data)
 end
 
 # def parseData(data)
