@@ -76,7 +76,6 @@ def postAlphaTag(alphaTag)
   url = "#{@urlBase}#{formattedAlphaTag}"
   sleep @delay
   ap "###################################################################"
-  ap "### Updated successfully at: Saturday, 22 Apr 2022  12:30:03 PM"
   ap "### updating alpha tag"
   ap "### #{alphaTag}"
   response = RestClient.get(url,
@@ -90,8 +89,8 @@ def postAlphaTag(alphaTag)
     ap "### Update failed with code: #{response.code}"
   end
   ap "###################################################################"
-  ap ""
-  ap ""
+  ap nil
+  ap nil
   # ap response.headers
   # ap response.body
 end
