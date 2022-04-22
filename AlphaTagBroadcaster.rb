@@ -40,7 +40,7 @@ def parseData(data)
     ap "data is not an array"
     ap data
   end
-  parsedData = data.split(",")
+  parsedData = data#.split(",")
   ap "parsing"
   ap parsedData
   testChars = parsedData[0]
