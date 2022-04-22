@@ -42,7 +42,7 @@ def parseData(data)
       ap "test passed"
       if parsedData.count >= 10
         ap "parsedData count passed"
-        if parsedData[1] !~ /[^[:space:]]/
+        if !parsedData[1].to_s.strip.empty?
           ap "parsedData[1] not blank"
           @tgid = parsedData[1]
           if @tgid != @tgidOld
