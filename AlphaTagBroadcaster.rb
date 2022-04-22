@@ -72,7 +72,7 @@ def postAlphaTag(alphaTag)
 
   uri = URI("#{@urlBase}#{formattedAlphaTag}")
   http = Net::HTTP.new(uri.host, uri.port)
-  http.use_ssl = true
+  http.use_ssl = false
   request = Net::HTTP::Get.new(uri.path, 'Content Type' => 'application/json')
   request.basic_auth(@icecastUser, @icecastPass)
   resp = http.request(request)
