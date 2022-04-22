@@ -43,10 +43,10 @@ def parseData(data)
       if parsedData.count >= 10
         # ap "parsedData count passed"
         if !parsedData[1].to_s.strip.empty?
-          ap "parsedData[1] not blank"
+          # ap "parsedData[1] not blank"
           @tgid = parsedData[1]
           if @tgid != @tgidOld
-            ap "@tgid != @tgidOld"
+            # ap "@tgid != @tgidOld"
             sys = parsedData[5]
             group = parsedData[6]
             talkGroup = parsedData[7]
@@ -54,7 +54,7 @@ def parseData(data)
             postAlphaTag(@metadata)
           end
         elsif @metadata != 'Searching for activity...'
-          ap "metadata does not match"
+          # ap "metadata does not match"
           @metadata = 'Searching for activity...'
           postAlphaTag(@metadata)
         end
@@ -64,8 +64,11 @@ def parseData(data)
 end
 
 def postAlphaTag(alphaTag)
+  formattedAlphaTag = alphaTag.gsub(" ", "+")
+
   @tgidOld = @tgid
   ap alphaTag
+  ap formattedAlphaTag
 end
 
 postAlphaTag(@metadata)
