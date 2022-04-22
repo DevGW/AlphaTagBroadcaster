@@ -54,6 +54,7 @@ def parseData(data)
 end
 
 def postAlphaTag(alphaTag)
+  @tgidOld = @tgid
   ap alphaTag
 end
 
