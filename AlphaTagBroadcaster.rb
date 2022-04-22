@@ -63,6 +63,8 @@ def postAlphaTag(alphaTag)
   ap alphaTag
 end
 
+postAlphaTag(@metadata)
+
 while true
   pollData()
   sleep(0.1)
