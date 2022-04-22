@@ -68,30 +68,20 @@ end
 def postAlphaTag(alphaTag)
   formattedAlphaTag = alphaTag.gsub(" ", "+")
   @tgidOld = @tgid
+  ap "updating alpha tag"
   ap alphaTag
-  ap formattedAlphaTag
 
   url = "#{@urlBase}#{formattedAlphaTag}"
-  ap url
-  ap @urlBase
   response = RestClient.get(url,
      {
          Authorization: "Basic #{Base64::encode64("#{@icecastUser}:#{@icecastPass}")}"
      }
   )
-  ap response.code
-  ap response.headers
-  ap response.body
-  # http = Net::HTTP.new(uri.host, uri.port)
-  # http.set_debug_output($stdout)
-  # http.use_ssl = false
-  # request = Net::HTTP::Get.new(uri.path)#, 'Content Type' => 'application/json')
-  # # request.basic_auth @icecastUser, @icecastPass
-  # ap "Basic " + Base64::strict_encode64("#{@icecastUser}:#{@icecastPass}")
-  # request.headers['authorization'] =  "Basic " + Base64::strict_encode64("#{@icecastUser}:#{@icecastPass}")
-  # resp = http.request(request)
-  # ap resp.body
-
+  if response.code == 200
+    ap "Updated successfully at: #{DateTime.now.strftime("%A, %d %b %Y %l:%M %p")}"
+  end
+  # ap response.headers
+  # ap response.body
 end
 
 postAlphaTag(@metadata)
