@@ -13,7 +13,8 @@ baudrate = 115200 #enter scanner baudrate here
 @icecastPass = "***REMOVED***" #enter icecast password in quotes here
 icecastServerAddress = "174.127.114.11:80" #enter icecast server IP Address (and port if necessary) here
 icecastMountpoint = "***REMOVED***" #enter icecast mountpoint in quotes here - don't add leading '/'
-@delay = 9 #enter the time in seconds of desired update delay time to match audio feed
+@delay = 5 #enter the time in seconds of desired update delay time to match audio feed
+@metadata = 'Searching for activity...' #default alpha tag for silence
 ###-----------------END USER CONFIGURATION---------------###
 
 @urlBase = "http://" + icecastServerAddress + "/admin/metadata?mount=/" + icecastMountpoint + "&mode=updinfo&song="
@@ -22,7 +23,6 @@ icecastMountpoint = "***REMOVED***" #enter icecast mountpoint in quotes here - d
 #for BCT8 will be RF to get frequency, or LCD FRQ to read icon status
 #for BC125AT use CIN'''
 @tgidOld, @tgid = 0 #initialize TGID old test variable
-@metadata = 'Searching for activity...'
 
 @write_ser = SerialPort.new(port, baudrate)
 @read_ser = SerialPort.new(port, baudrate)
