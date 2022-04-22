@@ -53,7 +53,7 @@ def parseData(data)
               sys = parsedData[5]
               group = parsedData[6]
               talkGroup = parsedData[7]
-              @metadata = "#{@tgid} #{sys} #{group} #{talkGroup}"
+              @metadata = "#{sys} - #{group} (#{talkGroup})"
               Thread.new { postAlphaTag(@metadata) }
             end
           elsif @metadata != 'Searching for activity...'
