@@ -10,9 +10,9 @@ require "awesome_print"
 port = "/dev/ttyACM0" #enter scanner USB/serial port in quotes here
 baudrate = 115200 #enter scanner baudrate here
 @icecastUser = "source" #enter icecast username in quotes here
-@icecastPass = "***REMOVED***" #enter icecast password in quotes here
+@icecastPass = "asdf1234" #enter icecast password in quotes here
 icecastServerAddress = "174.127.114.11:80" #enter icecast server IP Address (and port if necessary) here
-icecastMountpoint = "***REMOVED***" #enter icecast mountpoint in quotes here - don't add leading '/'
+icecastMountpoint = "asdf1234abcd" #enter icecast mountpoint in quotes here - don't add leading '/'
 @delay = 3 #enter the time in seconds of desired update delay time to match audio feed
 @metadata = 'Searching for activity...' #default alpha tag for silence
 ###-----------------END USER CONFIGURATION---------------###
