@@ -71,10 +71,10 @@ def postAlphaTag(alphaTag)
   ap alphaTag
   ap formattedAlphaTag
 
-  uri = URI("#{@urlBase}#{formattedAlphaTag}")
-  ap uri
+  url = "#{@urlBase}#{formattedAlphaTag}"
+  ap url
   ap @urlBase
-  response = RestClient.get(uri,
+  response = RestClient.get(url,
      {
          Authorization: "Basic #{Base64::encode64("#{@icecastUser}:#{@icecastPass}")}"
      }
