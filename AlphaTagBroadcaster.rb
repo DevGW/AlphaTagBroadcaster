@@ -72,6 +72,8 @@ def postAlphaTag(alphaTag)
   ap formattedAlphaTag
 
   uri = URI("#{@urlBase}#{formattedAlphaTag}")
+  ap uri
+  ap @urlBase
   http = Net::HTTP.new(uri.host, uri.port)
   http.set_debug_output($stdout)
   http.use_ssl = false
