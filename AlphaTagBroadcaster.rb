@@ -89,8 +89,7 @@ def postAlphaTag(alphaTag)
     ap "### Update failed with code: #{response.code}"
   end
   ap "###################################################################"
-  ap nil
-  ap nil
+  puts "\n\n"
   # ap response.headers
   # ap response.body
 end
