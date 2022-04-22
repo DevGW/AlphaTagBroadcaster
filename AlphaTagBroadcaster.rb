@@ -13,7 +13,7 @@ baudrate = 115200 #enter scanner baudrate here
 @icecastPass = "***REMOVED***" #enter icecast password in quotes here
 icecastServerAddress = "174.127.114.11:80" #enter icecast server IP Address (and port if necessary) here
 icecastMountpoint = "***REMOVED***" #enter icecast mountpoint in quotes here - don't add leading '/'
-delay = 9 #enter the time in seconds of desired update delay time to match audio feed
+@delay = 9 #enter the time in seconds of desired update delay time to match audio feed
 ###-----------------END USER CONFIGURATION---------------###
 
 @urlBase = "http://" + icecastServerAddress + "/admin/metadata?mount=/" + icecastMountpoint + "&mode=updinfo&song="
@@ -72,7 +72,7 @@ def postAlphaTag(alphaTag)
   ap alphaTag
 
   url = "#{@urlBase}#{formattedAlphaTag}"
-  sleep(delay.seconds)
+  sleep(@delay.seconds)
   response = RestClient.get(url,
      {
          Authorization: "Basic #{Base64::encode64("#{@icecastUser}:#{@icecastPass}")}"
