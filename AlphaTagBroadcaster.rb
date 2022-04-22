@@ -33,8 +33,8 @@ def pollData
 end
 
 def parseData(data)
-  if data.is_a?(Array)
-    ap "data is an array"
+  if data.is_a?(Array) && data.count > 0
+    ap "data is a valid array"
     ap data
   else
     ap "data is not an array"
