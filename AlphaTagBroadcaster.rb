@@ -2,7 +2,7 @@
 #
 require "rubygems"
 require "serialport"
-require 'net/http'
+require 'rest-client'
 require 'base64'
 require "awesome_print"
 
@@ -74,15 +74,23 @@ def postAlphaTag(alphaTag)
   uri = URI("#{@urlBase}#{formattedAlphaTag}")
   ap uri
   ap @urlBase
-  http = Net::HTTP.new(uri.host, uri.port)
-  http.set_debug_output($stdout)
-  http.use_ssl = false
-  request = Net::HTTP::Get.new(uri.path)#, 'Content Type' => 'application/json')
-  # request.basic_auth @icecastUser, @icecastPass
-  ap "Basic " + Base64::strict_encode64("#{@icecastUser}:#{@icecastPass}")
-  request.headers['authorization'] =  "Basic " + Base64::strict_encode64("#{@icecastUser}:#{@icecastPass}")
-  resp = http.request(request)
-  ap resp.body
+  response = RestClient.get(uri,
+     {
+         Authorization: "Basic #{Base64::encode64("#{@icecastUser}:#{@icecastPass}")}"
+     }
+  )
+  ap response.code
+  ap response.headers
+  ap response.body
+  # http = Net::HTTP.new(uri.host, uri.port)
+  # http.set_debug_output($stdout)
+  # http.use_ssl = false
+  # request = Net::HTTP::Get.new(uri.path)#, 'Content Type' => 'application/json')
+  # # request.basic_auth @icecastUser, @icecastPass
+  # ap "Basic " + Base64::strict_encode64("#{@icecastUser}:#{@icecastPass}")
+  # request.headers['authorization'] =  "Basic " + Base64::strict_encode64("#{@icecastUser}:#{@icecastPass}")
+  # resp = http.request(request)
+  # ap resp.body
 
 end
 
