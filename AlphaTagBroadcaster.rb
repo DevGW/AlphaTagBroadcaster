@@ -26,7 +26,7 @@ delay = 0 #enter the time in seconds of desired update delay time to match audio
 @read_ser = SerialPort.new(port, baudrate)
 
 def pollData
-  @write_ser.write("#{testString}\r")
+  @write_ser.write("#{@testString}\r")
   response = @read_ser.readline("\r")
   ap "#{response}\n"
   sleep(0.1)
