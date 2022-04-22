@@ -1,7 +1,8 @@
 #!/usr/bin/env ruby
 #
-require 'serialport'
-
+require "rubygems"
+require "serialport"
+require "awesome_print"
 
 ###-----------------USER CONFIGURATION-----------------###
 port = "/dev/ttyACM0" #enter scanner USB/serial port in quotes here
@@ -13,9 +14,24 @@ icecastMountpoint = "***REMOVED***" #enter icecast mountpoint in quotes here - d
 delay = 0 #enter the time in seconds of desired update delay time to match audio feed
 ###-----------------END USER CONFIGURATION---------------###
 
+@urlBase = "http://" + icecastServerAddress + "/admin/metadata?mount=/" + icecastMountpoint + "&mode=updinfo&song="
+# serTimeout = 0.005 # serial timeout here (.005 is probably sufficient)
+@testString = "GLG" #'''test string to send to Uniden Scanner to get current status
+#for BCT8 will be RF to get frequency, or LCD FRQ to read icon status
+#for BC125AT use CIN'''
+@TGIDold, @TGID = 0 #initialize TGID old test variable
+@metadata = 'Searching for activity...'
 
-ser = SerialPort.new(port, baudrate, 8, 1, SerialPort::NONE)
-ser.write('GLG\r\n')
-response = ser.readline("\r")
-response.chomp!
-ap "#{response}\n"
+@write_ser = SerialPort.new(port, baudrate)
+@read_ser = SerialPort.new(port, baudrate)
+
+def pollData
+  @write_ser.write("#{testString}\r")
+  response = @read_ser.readline("\r")
+  ap "#{response}\n"
+  sleep(0.1)
+end
+
+while true
+  pollData
+end
