@@ -72,7 +72,7 @@ def postAlphaTag(alphaTag)
   ap alphaTag
 
   url = "#{@urlBase}#{formattedAlphaTag}"
-  sleep(@delay.seconds)
+  sleep @delay.seconds
   response = RestClient.get(url,
      {
          Authorization: "Basic #{Base64::encode64("#{@icecastUser}:#{@icecastPass}")}"
