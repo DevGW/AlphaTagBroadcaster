@@ -72,6 +72,7 @@ def postAlphaTag(alphaTag)
   ap formattedAlphaTag
 
   uri = URI("#{@urlBase}#{formattedAlphaTag}")
+  http.set_debug_output($stdout)
   http = Net::HTTP.new(uri.host, uri.port)
   http.use_ssl = false
   request = Net::HTTP::Get.new(uri.path)#, 'Content Type' => 'application/json')
