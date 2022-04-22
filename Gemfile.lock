@@ -1,0 +1,18 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    awesome_print (1.9.2)
+    ffi (1.15.5)
+    rubyserial (0.6.0)
+      ffi (~> 1.9, >= 1.9.3)
+
+PLATFORMS
+  -darwin-21
+  arm64-darwin-20
+
+DEPENDENCIES
+  awesome_print
+  rubyserial
+
+BUNDLED WITH
+   2.3.10
