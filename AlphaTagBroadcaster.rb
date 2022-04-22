@@ -33,21 +33,22 @@ def pollData
 end
 
 def parseData(data)
+  parsedData = data.split(",")
   ap "parsing"
-  ap data
-  testChars = data[0]
+  ap parsedData
+  testChars = parsedData[0]
   if testChars == @testString
     ap "test passed"
-    if data.count >= 10
-      ap "data count passed"
-      if !data[1].blank?
-        ap "data[1] not blank"
-        @tgid = data[1]
+    if parsedData.count >= 10
+      ap "parsedData count passed"
+      if !parsedData[1].blank?
+        ap "parsedData[1] not blank"
+        @tgid = parsedData[1]
         if @tgid != @tgidOld
           ap "@tgid != @tgidOld"
-          sys = data[5]
-          group = data[6]
-          talkGroup = data[7]
+          sys = parsedData[5]
+          group = parsedData[6]
+          talkGroup = parsedData[7]
           @metadata = "#{@tgid} #{sys} #{group} #{talkGroup}"
           postAlphaTag(@metadata)
         end
