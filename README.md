@@ -1,8 +1,6 @@
 # AlphaTagBroadcaster
 
-## Ruby script to get alpha tags from Uniden scanners
-## For Broadcastify feeds
-## Tested on Ruby 2.7.4, 3.0.1+ 
+## Ruby script to get alpha tags from Uniden scanners<br>For Broadcastify feeds<br>Tested on Ruby 2.7.4, 3.0.1+ 
 ### Install ruby development libraries
 ```sudo apt-get install ruby-dev```
 
