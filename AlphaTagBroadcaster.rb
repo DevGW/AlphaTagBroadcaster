@@ -83,7 +83,7 @@ def postAlphaTag(alphaTag)
      }
   )
   if response.code == 200
-    ap "Updated successfully at: #{DateTime.now.strftime("%A, %d %b %Y %l:%M:%S %p")}\n\n"
+    ap "Updated successfully at: #{DateTime.now.strftime("%A, %d %b %Y %l:%M:%S %p")}\n\n".to_s
   end
   # ap response.headers
   # ap response.body
