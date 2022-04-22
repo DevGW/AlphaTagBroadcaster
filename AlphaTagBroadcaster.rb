@@ -75,7 +75,7 @@ def postAlphaTag(alphaTag)
   @tgidOld = @tgid
   url = "#{@urlBase}#{formattedAlphaTag}"
   sleep @delay
-  ap "###################################################################"
+  ap "######################################################################"
   ap "### updating alpha tag"
   ap "### #{alphaTag}"
   response = RestClient.get(url,
@@ -88,7 +88,7 @@ def postAlphaTag(alphaTag)
   else
     ap "### Update failed with code: #{response.code}"
   end
-  ap "###################################################################"
+  ap "######################################################################"
   puts "\n\n"
   # ap response.headers
   # ap response.body
