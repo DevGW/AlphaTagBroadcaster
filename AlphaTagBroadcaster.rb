@@ -35,17 +35,22 @@ end
 def parseData(data)
   testChars = data[0]
   if testChars == @testString
+    ap "test passed"
     if data.count >= 10
+      ap "data count passed"
       if !data[1].blank?
+        ap "data[1] not blank"
         @tgid = data[1]
-        sys = data[5]
-        group = data[6]
-        talkGroup = data[7]
         if @tgid != @tgidOld
+          ap "@tgid != @tgidOld"
+          sys = data[5]
+          group = data[6]
+          talkGroup = data[7]
           @metadata = "#{@tgid} #{sys} #{group} #{talkGroup}"
           postAlphaTag(@metadata)
         end
       elsif @metadata != 'Searching for activity...'
+        ap "metadata does not match"
         @metadata = 'Searching for activity...'
         postAlphaTag(@metadata)
       end
@@ -59,6 +64,6 @@ def postAlphaTag(alphaTag)
 end
 
 while true
-  pollData
+  pollData()
   sleep(0.1)
 end
