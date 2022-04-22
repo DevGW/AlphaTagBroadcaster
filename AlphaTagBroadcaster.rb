@@ -28,11 +28,13 @@ delay = 0 #enter the time in seconds of desired update delay time to match audio
 def pollData
   @write_ser.write("#{@testString}\r")
   data = @read_ser.readlines()
-  # ap "#{response}\n"
+  ap "#{data}"
   parseData(data)
 end
 
 def parseData(data)
+  ap "parsing"
+  ap data
   testChars = data[0]
   if testChars == @testString
     ap "test passed"
