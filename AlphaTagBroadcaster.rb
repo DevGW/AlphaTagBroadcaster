@@ -75,16 +75,23 @@ def postAlphaTag(alphaTag)
   @tgidOld = @tgid
   url = "#{@urlBase}#{formattedAlphaTag}"
   sleep @delay
-  ap "updating alpha tag"
-  ap alphaTag
+  ap "###################################################################"
+  ap "### Updated successfully at: Saturday, 22 Apr 2022  12:30:03 PM"
+  ap "### updating alpha tag"
+  ap "### #{alphaTag}"
   response = RestClient.get(url,
      {
          Authorization: "Basic #{Base64::encode64("#{@icecastUser}:#{@icecastPass}")}"
      }
   )
   if response.code == 200
-    ap "Updated successfully at: #{DateTime.now.strftime("%A, %d %b %Y %l:%M:%S %p")}\n\n".to_s
+    ap "### Updated successfully at: #{DateTime.now.strftime("%A, %d %b %Y %l:%M:%S %p")}"
+  else
+    ap "### Update failed with code: #{response.code}"
   end
+  ap "###################################################################"
+  ap ""
+  ap ""
   # ap response.headers
   # ap response.body
 end
