@@ -37,9 +37,12 @@ After=network-online.target
 
 [Service]
 Type=simple
-User=pi
+User=root
 WorkingDirectory=/home/pi
 ExecStart=/home/pi/path_to_AlphaTagBroadcaster.rb
+Restart=always
+StandardOutput=file:/var/log/AlphaTagBroadcast.log
+StandardError=inherit
 
 [Install]
 WantedBy=multi-user.target

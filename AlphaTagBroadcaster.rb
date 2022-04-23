@@ -27,7 +27,10 @@ icecastMountpoint = "asdf1234abcd" #enter icecast mountpoint in quotes here - do
 begin
   @write_ser = SerialPort.new(port, baudrate)
   @read_ser = SerialPort.new(port, baudrate)
-rescue
+rescue Exception => e
+  ap e.message
+  ap e.backtrace.inspectrescue
+  ap "rescuing"
   sleep 10
   retry
 end
