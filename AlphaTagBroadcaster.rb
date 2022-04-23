@@ -13,7 +13,7 @@ baudrate = 115200 #enter scanner baudrate here
 @icecastPass = "asdf1234" #enter icecast password in quotes here
 icecastServerAddress = "174.127.114.11:80" #enter icecast server IP Address (and port if necessary) here
 icecastMountpoint = "asdf1234abcd" #enter icecast mountpoint in quotes here - don't add leading '/'
-@delay = 3 #enter the time in seconds of desired update delay time to match audio feed
+@delay = 1 #enter the time in seconds of desired update delay time to match audio feed
 @metadata = 'Searching for activity...' #default alpha tag for silence
 ###-----------------END USER CONFIGURATION---------------###
 
