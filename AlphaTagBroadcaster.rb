@@ -24,8 +24,13 @@ icecastMountpoint = "asdf1234abcd" #enter icecast mountpoint in quotes here - do
 #for BC125AT use CIN'''
 @tgidOld, @tgid = 0 #initialize TGID old test variable
 
-@write_ser = SerialPort.new(port, baudrate)
-@read_ser = SerialPort.new(port, baudrate)
+begin
+  @write_ser = SerialPort.new(port, baudrate)
+  @read_ser = SerialPort.new(port, baudrate)
+rescue
+  sleep 10
+  retry
+end
 
 def pollData
   @write_ser.write("#{@testString}\r")
