@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-#
+# v1.0
 require "rubygems"
 require "serialport"
 require 'rest-client'
