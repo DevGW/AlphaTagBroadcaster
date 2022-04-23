@@ -18,7 +18,7 @@ icecastMountpoint = "asdf1234abcd" #enter icecast mountpoint in quotes here - do
 ###-----------------END USER CONFIGURATION---------------###
 
 @urlBase = "http://" + icecastServerAddress + "/admin/metadata?mount=/" + icecastMountpoint + "&mode=updinfo&song="
-# serTimeout = 0.005 # serial timeout here (.005 is probably sufficient)
+serTimeout = 5 # serial timeout here (5 milliseconds is probably sufficient)
 @testString = "GLG" #'''test string to send to Uniden Scanner to get current status
 #for BCT8 will be RF to get frequency, or LCD FRQ to read icon status
 #for BC125AT use CIN'''
@@ -27,6 +27,7 @@ icecastMountpoint = "asdf1234abcd" #enter icecast mountpoint in quotes here - do
 begin
   @write_ser = SerialPort.new(port, baudrate)
   @read_ser = SerialPort.new(port, baudrate)
+  @read_ser.read_timeout = serTimeout
 rescue Exception => e
   ap e.message
   ap e.backtrace.inspectrescue
