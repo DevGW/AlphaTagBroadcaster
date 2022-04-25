@@ -119,7 +119,7 @@ EOSLS
 @logStr = <<EOFLS
     ######################################################################
     ### updating alpha tag
-    ### Update failed with code: #{response.code}
+    ### Update failed with code: #{responseCode}
     ######################################################################
 
 EOFLS
