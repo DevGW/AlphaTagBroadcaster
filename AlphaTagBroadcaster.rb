@@ -32,7 +32,7 @@ begin
   @read_ser = SerialPort.new(port, baudrate)
   @read_ser.read_timeout = serTimeout
 
-  if @logToFile
+  if @enableLogging && @logToFile
     @lfp = File.open(@logFilePath, 'a')
     puts "logging to file: #{@logFilePath}"
   end
