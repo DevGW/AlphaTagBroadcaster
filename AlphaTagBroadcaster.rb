@@ -116,7 +116,7 @@ def appendLog(alphaTag, responseCode)
   ######################################################################
 
 EOSLS
-@logStr = <<EOFLS
+@fLogStr = <<EOFLS
     ######################################################################
     ### updating alpha tag
     ### Update failed with code: #{responseCode}
@@ -132,9 +132,9 @@ EOFLS
     end
   else
     if @logToFile
-      @lfp.puts @logStr
+      @lfp.puts @fLogStr
     else
-      puts @logStr
+      puts @fLogStr
     end
   end
 end
