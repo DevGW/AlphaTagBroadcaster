@@ -139,9 +139,16 @@ EOFLS
   end
 end
 
-postAlphaTag(@metadata)
-
-while true
-  pollData()
-  sleep(0.1)
+def main_loop
+  postAlphaTag(@metadata)
+  while true
+    pollData()
+    sleep(0.1)
+  end
 end
+
+main_pid = fork do
+  main_loop
+end
+
+puts "running forked process as pid #{main_pid}"
