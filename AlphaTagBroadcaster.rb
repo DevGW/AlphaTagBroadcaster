@@ -71,12 +71,12 @@ def parseData(data)
               group = parsedData[6]
               talkGroup = parsedData[7]
               @metadata = "#{sys} - #{group} (#{talkGroup})"
-              Thread.new { postAlphaTag(@metadata) }
+              t = Thread.new { postAlphaTag(@metadata) }
             end
           elsif @metadata != 'Searching for activity...'
             # ap "metadata does not match"
             @metadata = 'Searching for activity...'
-            Thread.new { postAlphaTag(@metadata) }
+            t = Thread.new { postAlphaTag(@metadata) }
           end
         end
       end
@@ -136,6 +136,13 @@ EOFLS
     else
       puts @fLogStr
     end
+  end
+end
+
+def join_threads
+  Thread.list.each do |t|
+    # Wait for the thread to finish if it isn't this thread (i.e. the main thread).
+    t.join if t != Thread.current
   end
 end
 
