@@ -15,6 +15,9 @@ icecastServerAddress = "174.127.114.11:80" #enter icecast server IP Address (and
 icecastMountpoint = "asdf1234abcd" #enter icecast mountpoint in quotes here - don't add leading '/'
 @delay = 1 #enter the time in seconds of desired update delay time to match audio feed
 @metadata = 'Searching for activity...' #default alpha tag for silence
+@enableLogging = true #turn on or off logging output
+@logToFile = true #if @enableLogging is true, this will log to @logFilePath below, false logs to stdout
+@logFilePath = "/home/pi/AlphaTagBroadcaster/logfile" # full absolute path to logfile. Ensure directory exists and has correct permissions
 ###-----------------END USER CONFIGURATION---------------###
 
 @urlBase = "http://" + icecastServerAddress + "/admin/metadata?mount=/" + icecastMountpoint + "&mode=updinfo&song="
@@ -84,23 +87,35 @@ def postAlphaTag(alphaTag)
   @tgidOld = @tgid
   url = "#{@urlBase}#{formattedAlphaTag}"
   sleep @delay
-  ap "######################################################################"
-  ap "### updating alpha tag"
-  ap "### #{alphaTag}"
   response = RestClient.get(url,
      {
          Authorization: "Basic #{Base64::encode64("#{@icecastUser}:#{@icecastPass}")}"
      }
   )
-  if response.code == 200
-    ap "### Updated successfully at: #{DateTime.now.strftime("%A, %d %b %Y %l:%M:%S %p")}"
-  else
-    ap "### Update failed with code: #{response.code}"
-  end
-  ap "######################################################################"
-  puts "\n\n"
+  appendLog(alphaT, response.code)
+
+  # if response.code == 200
+  # else
+  # end
   # ap response.headers
   # ap response.body
+end
+
+@logStr = <<EOLS
+  ######################################################################
+  ### updating alpha tag
+  ### #{alphaTag}
+  ### Updated successfully at: #{DateTime.now.strftime("%A, %d %b %Y %l:%M:%S %p")}
+  ######################################################################
+
+EOLS
+
+def appendLog(alphaTag, responseCode)
+  if @enableLogging && responseCode == 200
+    ap @logStr
+  elsif @enableLogging
+    ap "### Update failed with code: #{response.code}"
+  end
 end
 
 postAlphaTag(@metadata)
