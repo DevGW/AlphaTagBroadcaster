@@ -125,9 +125,17 @@ EOSLS
 EOFLS
 
   if responseCode == 200
-    @logToFile? @lfp.puts @logStr : puts @logStr
+    if @logToFile
+      @lfp.puts @logStr
+    else
+      puts @logStr
+    end
   else
-    @logToFile? @lfp.puts @logStr : puts @logStr
+    if @logToFile
+      @lfp.puts @logStr
+    else
+      puts @logStr
+    end
   end
 end
 
