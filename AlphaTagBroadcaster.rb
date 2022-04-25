@@ -34,6 +34,7 @@ begin
 
   if @logToFile
     @lfp = File.open(@logFilePath, 'a')
+    puts "logging to file: #{@logFilePath}"
   end
 rescue Exception => e
   ap e.message
@@ -106,22 +107,28 @@ def postAlphaTag(alphaTag)
 end
 
 def appendLog(alphaTag, responseCode)
-  if @enableLogging && responseCode == 200
-
-@logStr = <<EOLS
+### heredoc the log strings for later use
+@logStr = <<EOSLS
   ######################################################################
   ### updating alpha tag
   ### #{alphaTag}
   ### Updated successfully at: #{DateTime.now.strftime("%A, %d %b %Y %l:%M:%S %p")}
   ######################################################################
 
-EOLS
+EOSLS
+@logStr = <<EOFLS
+    ######################################################################
+    ### updating alpha tag
+    ### Update failed with code: #{response.code}
+    ######################################################################
 
-  elsif @enableLogging
-    ap "### Update failed with code: #{response.code}"
+EOFLS
+
+  if responseCode == 200
+    @logToFile? @lfp.puts @logStr : puts @logStr
+  else
+    @logToFile? @lfp.puts @logStr : puts @logStr
   end
-  ap @logStr
-  @lfp.puts @logStr
 end
 
 postAlphaTag(@metadata)
