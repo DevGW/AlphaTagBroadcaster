@@ -92,7 +92,7 @@ def postAlphaTag(alphaTag)
          Authorization: "Basic #{Base64::encode64("#{@icecastUser}:#{@icecastPass}")}"
      }
   )
-  appendLog(alphaT, response.code)
+  appendLog(alphaTag, response.code)
 
   # if response.code == 200
   # else
