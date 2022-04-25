@@ -31,6 +31,10 @@ begin
   @write_ser = SerialPort.new(port, baudrate)
   @read_ser = SerialPort.new(port, baudrate)
   @read_ser.read_timeout = serTimeout
+
+  if @logToFile
+    @lfp = File.open(@logFilePath, 'a')
+  end
 rescue Exception => e
   ap e.message
   ap e.backtrace.inspectrescue
@@ -101,6 +105,9 @@ def postAlphaTag(alphaTag)
   # ap response.body
 end
 
+def appendLog(alphaTag, responseCode)
+  if @enableLogging && responseCode == 200
+
 @logStr = <<EOLS
   ######################################################################
   ### updating alpha tag
@@ -110,12 +117,11 @@ end
 
 EOLS
 
-def appendLog(alphaTag, responseCode)
-  if @enableLogging && responseCode == 200
-    ap @logStr
   elsif @enableLogging
     ap "### Update failed with code: #{response.code}"
   end
+  ap @logStr
+  @lfp.puts @logStr
 end
 
 postAlphaTag(@metadata)
