@@ -72,14 +72,14 @@ def parseData(data)
               group = parsedData[6]
               talkGroup = parsedData[7]
               @metadata = "#{sys} - #{group} (#{talkGroup})"
-              t = Thread.new { postAlphaTag(@metadata) }
-              # postAlphaTag(@metadata)
+              # t = Thread.new { postAlphaTag(@metadata) }
+              postAlphaTag(@metadata)
             end
           elsif @metadata != @defaultMetadata
             # ap "metadata does not match"
             @metadata = @defaultMetadata
-            t = Thread.new { postAlphaTag(@metadata) }
-            # postAlphaTag(@metadata)
+            # t = Thread.new { postAlphaTag(@metadata) }
+            postAlphaTag(@metadata)
           end
         end
       end
@@ -129,13 +129,17 @@ EOFLS
 
   if responseCode == 200
     if @logToFile
-      @lfp.puts @logStr
+      File.open(@logFilePath, 'a') do |f|
+        f.write @logStr
+      end
     else
       puts @logStr
     end
   else
     if @logToFile
-      @lfp.puts @fLogStr
+      File.open(@logFilePath, 'a') do |f|
+        f.write @logStr
+      end
     else
       puts @fLogStr
     end
