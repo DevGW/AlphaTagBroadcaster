@@ -15,9 +15,9 @@ icecastServerAddress = "174.127.114.11:80" #enter icecast server IP Address (and
 icecastMountpoint = "asdf1234abcd" #enter icecast mountpoint in quotes here - don't add leading '/'
 @delay = 1 #enter the time in seconds of desired update delay time to match audio feed
 @defaultMetadata = 'Scanning for activity ...' #default alpha tag for silence
-@Metadata = 'Scanning for activity ...' #default alpha tag for silence
-# @enableLogging = true #turn on or off logging output
-@logToFile = true #if @enableLogging is true, this will log to @logFilePath below, false logs to stdout
+@metadata = 'Scanning for activity ...' #default alpha tag for silence
+@enableLogging = false #turn on or off logging output
+@logToFile = false #if @enableLogging is true, this will log to @logFilePath below, false logs to stdout
 @logFilePath = "/home/pi/AlphaTagBroadcaster/logfile" # full absolute path to logfile. Ensure directory exists and has correct permissions
 ###-----------------END USER CONFIGURATION---------------###
 
@@ -72,14 +72,14 @@ def parseData(data)
               group = parsedData[6]
               talkGroup = parsedData[7]
               @metadata = "#{sys} - #{group} (#{talkGroup})"
-              # t = Thread.new { postAlphaTag(@metadata) }
-              postAlphaTag(@metadata)
+              t = Thread.new { postAlphaTag(@metadata) }
+              # postAlphaTag(@metadata)
             end
           elsif @metadata != @defaultMetadata
             # ap "metadata does not match"
             @metadata = @defaultMetadata
-            # t = Thread.new { postAlphaTag(@metadata) }
-            postAlphaTag(@metadata)
+            t = Thread.new { postAlphaTag(@metadata) }
+            # postAlphaTag(@metadata)
           end
         end
       end
