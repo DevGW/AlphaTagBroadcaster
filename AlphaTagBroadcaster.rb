@@ -153,9 +153,11 @@ def main_loop
     sleep(0.1)
   end
 end
+#
+# main_pid = fork do
+#   main_loop
+# end
 
-main_pid = fork do
-  main_loop
-end
+main_loop
 
-puts "running forked process as pid #{main_pid}"
+# puts "running forked process as pid #{main_pid}"
