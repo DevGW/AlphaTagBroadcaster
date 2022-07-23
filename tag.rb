@@ -13,10 +13,10 @@ baudrate = 115200 #enter scanner baudrate here
 @icecastPass = "asdf1234" #enter icecast password in quotes here
 icecastServerAddress = "174.127.114.11:80" #enter icecast server IP Address (and port if necessary) here
 icecastMountpoint = "asdf1234abcd" #enter icecast mountpoint in quotes here - don't add leading '/'
-@delay = 1 #enter the time in seconds of desired update delay time to match audio feed
+@delay = 6 #enter the time in seconds of desired update delay time to match audio feed
 @defaultMetadata = 'Scanning for activity ...' #default alpha tag for silence
 @metadata = 'Scanning for activity ...' #default alpha tag for silence
-@enableLogging = false #turn on or off logging output
+@enableLogging = true #turn on or off logging output
 @logToFile = false #if @enableLogging is true, this will log to @logFilePath below, false logs to stdout
 @logFilePath = "/home/pi/AlphaTagBroadcaster/logfile" # full absolute path to logfile. Ensure directory exists and has correct permissions
 ###-----------------END USER CONFIGURATION---------------###
@@ -34,7 +34,6 @@ begin
   @read_ser.read_timeout = serTimeout
 
   if @enableLogging && @logToFile
-    @lfp = File.open(@logFilePath, 'a')
     puts "logging to file: #{@logFilePath}"
   end
 rescue Exception => e
@@ -72,14 +71,18 @@ def parseData(data)
               group = parsedData[6]
               talkGroup = parsedData[7]
               @metadata = "#{sys} - #{group} (#{talkGroup})"
-              # t = Thread.new { postAlphaTag(@metadata) }
-              postAlphaTag(@metadata)
+              Thread.new do
+                postAlphaTag(@metadata)
+              end.join
+              # postAlphaTag(@metadata)
             end
           elsif @metadata != @defaultMetadata
             # ap "metadata does not match"
             @metadata = @defaultMetadata
-            # t = Thread.new { postAlphaTag(@metadata) }
-            postAlphaTag(@metadata)
+            Thread.new do
+              postAlphaTag(@metadata)
+            end.join
+            # postAlphaTag(@metadata)
           end
         end
       end
@@ -96,9 +99,9 @@ def postAlphaTag(alphaTag)
   url = "#{@urlBase}#{formattedAlphaTag}"
   sleep @delay
   response = RestClient.get(url,
-     {
-         Authorization: "Basic #{Base64::encode64("#{@icecastUser}:#{@icecastPass}")}"
-     }
+                            {
+                              Authorization: "Basic #{Base64::encode64("#{@icecastUser}:#{@icecastPass}")}"
+                            }
   )
   appendLog(alphaTag, response.code)
 
@@ -110,8 +113,8 @@ def postAlphaTag(alphaTag)
 end
 
 def appendLog(alphaTag, responseCode)
-### heredoc the log strings for later use
-@logStr = <<EOSLS
+  ### heredoc the log strings for later use
+  @logStr = <<EOSLS
   ######################################################################
   ### updating alpha tag
   ### #{alphaTag}
@@ -119,7 +122,7 @@ def appendLog(alphaTag, responseCode)
   ######################################################################
 
 EOSLS
-@fLogStr = <<EOFLS
+  @fLogStr = <<EOFLS
     ######################################################################
     ### updating alpha tag
     ### Update failed with code: #{responseCode}
@@ -158,7 +161,7 @@ def main_loop
     sleep(0.1)
   end
 end
-#
+
 # main_pid = fork do
 #   main_loop
 # end
