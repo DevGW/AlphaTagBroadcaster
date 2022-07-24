@@ -17,7 +17,7 @@ icecastMountpoint = "asdf1234abcd" #enter icecast mountpoint in quotes here - do
 @defaultMetadata = 'Scanning for activity ...' #default alpha tag for silence
 @metadata = 'Scanning for activity ...' #default alpha tag for silence
 @enableLogging = true #turn on or off logging output
-@logToFile = false #if @enableLogging is true, this will log to @logFilePath below, false logs to stdout
+@logToFile = true #if @enableLogging is true, this will log to @logFilePath below, false logs to stdout
 @logFilePath = "/home/pi/AlphaTagBroadcaster/logfile" # full absolute path to logfile. Ensure directory exists and has correct permissions
 ###-----------------END USER CONFIGURATION---------------###
 
@@ -71,18 +71,19 @@ def parseData(data)
               group = parsedData[6]
               talkGroup = parsedData[7]
               @metadata = "#{sys} - #{group} (#{talkGroup})"
-              Thread.new do
-                postAlphaTag(@metadata)
-              end.join
-              # postAlphaTag(@metadata)
+              # Thread.new do
+              #   postAlphaTag(@metadata)
+              # end.join
+              postAlphaTag(@metadata)
             end
           elsif @metadata != @defaultMetadata
             # ap "metadata does not match"
+            @tgid = 0
             @metadata = @defaultMetadata
-            Thread.new do
-              postAlphaTag(@metadata)
-            end.join
-            # postAlphaTag(@metadata)
+            # Thread.new do
+            #   postAlphaTag(@metadata)
+            # end.join
+            postAlphaTag(@metadata)
           end
         end
       end
@@ -94,22 +95,19 @@ def parseData(data)
 end
 
 def postAlphaTag(alphaTag)
-  formattedAlphaTag = alphaTag.gsub(" ", "+")
   @tgidOld = @tgid
-  url = "#{@urlBase}#{formattedAlphaTag}"
-  sleep @delay
-  response = RestClient.get(url,
-                            {
-                              Authorization: "Basic #{Base64::encode64("#{@icecastUser}:#{@icecastPass}")}"
-                            }
-  )
-  appendLog(alphaTag, response.code)
-
-  # if response.code == 200
-  # else
-  # end
-  # ap response.headers
-  # ap response.body
+  pid = Process.fork do
+    formattedAlphaTag = alphaTag.gsub(" ", "+")
+    url = "#{@urlBase}#{formattedAlphaTag}"
+    sleep @delay
+    response = RestClient.get(url,
+                              {
+                                Authorization: "Basic #{Base64::encode64("#{@icecastUser}:#{@icecastPass}")}"
+                              }
+    )
+    appendLog(alphaTag, response.code)
+  end
+  Process.detach(pid)
 end
 
 def appendLog(alphaTag, responseCode)
@@ -162,10 +160,12 @@ def main_loop
   end
 end
 
-# main_pid = fork do
-#   main_loop
-# end
+main_pid = fork do
+  main_loop
+end
 
-main_loop
+# main_loop
 
-# puts "running forked process as pid #{main_pid}"
+puts "running forked process as pid #{main_pid}"
+
+
