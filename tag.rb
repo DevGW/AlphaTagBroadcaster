@@ -70,7 +70,8 @@ def parseData(data)
               sys = parsedData[5]
               group = parsedData[6]
               talkGroup = parsedData[7]
-              @metadata = "#{sys} - #{group} (#{talkGroup})"
+              ts = DateTime.now
+              @metadata = "#{group} #{talkGroup} - #{sys} #{ts.strftime('%I:%M:%S %p')}"
               # Thread.new do
               #   postAlphaTag(@metadata)
               # end.join
